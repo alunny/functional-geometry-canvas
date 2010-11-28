@@ -234,8 +234,9 @@
                 line = lines[i];
                 ctx.moveTo.apply(ctx, vtc(lines[i][0]));
                 ctx.lineTo.apply(ctx, vtc(lines[i][1]));
-                ctx.stroke()
             }
+
+            ctx.stroke()
         }
     });
 })(window);

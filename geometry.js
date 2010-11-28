@@ -99,19 +99,43 @@
         return listOfLines;
     }
 
-    function beside(p, q) {
-        return function (a, b, c) {
-            var v = vectorMath;
-            var halfWidth = v.divide(b, 2);
-            return p(a, halfWidth, c).concat(q(v.add(a, halfWidth), halfWidth, c));
+    var transforms = {
+        beside: function (p, q) {
+            return function (a, b, c) {
+                var halfWidth = v.divide(b, 2);
+                return p(a, halfWidth, c).concat(q(v.add(a, halfWidth), halfWidth, c));
+            }
+        },
+        above: function (p, q) {
+            return function (a, b, c) {
+                var halfHeight = v.divide(c, 2);
+                return p(a, b, halfHeight).concat(q(v.add(a, halfHeight), b, halfHeight));
+            }
+        },
+        rot: function (p) {
+            return function (a, b, c) {
+                return p(v.add(a, b), c, v.minus( b));
+            }
+        },
+        quartet: function (p, q, r, s) {
+            return this.above(this.beside(p, q), this.beside(r, s));
+        },
+        cycle: function (p) {
+            return this.quartet(p, this.rot(this.rot(this.rot(p))), 
+                    this.rot(p), this.rot(this.rot(p)));
         }
     }
 
     global.vMath = v;
     global.fGeo = {
         grid: grid,
-        beside: beside,
         polygon: polygon
+    }
+
+    for (var i in transforms) {
+        if (transforms.hasOwnProperty(i)) {
+            global.fGeo[i] = transforms[i];
+        }
     }
 })(window);
 

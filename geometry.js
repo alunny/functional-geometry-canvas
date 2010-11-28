@@ -141,8 +141,12 @@
 
 // fishes
 (function (global) {
+    var blank = function (a, b, c) {
+        return [];
+    };
+
     var p = fGeo.grid(16, 16, [
-        [[4, 4], [6, 0]], [[0, 3], [3, 4]], [[3, 4] [0, 8]],
+        [[4, 4], [6, 0]], [[0, 3], [3, 4]], [[3, 4], [0, 8]],
         [[0, 8], [0, 3]], [[4, 5], [7, 6]], [[7, 6], [4, 10]],
         [[4, 10], [4, 5]], [[4, 13], [0, 16]], [[10, 4], [8, 8]],
         [[8, 8], [4, 13]], [[4, 13], [0, 16]], [[11, 0], [14, 2]],
@@ -190,6 +194,20 @@
         [[12, 16], [13, 13]], [[13, 13], [15, 9]], [[15, 9], [16, 8]],
         [[13, 13], [16, 14]], [[14, 11], [16, 12]], [[15, 9], [16, 10]]
     ]);
+
+    var t = fGeo.quartet(p, q, r, s);
+    var u = fGeo.cycle(fGeo.rot(q));
+
+    var side1 = fGeo.quartet(blank, blank, fGeo.rot(t), t);
+    var side2 = fGeo.quartet(side1, side1, fGeo.rot(t), t);
+
+    var corner1 = fGeo.quartet(blank, blank, blank, u);
+    var corner2 = fGeo.quartet(corner1, side1, fGeo.rot(side1), u);
+    var pseudocorner = fGeo.quartet(corner1, side2, fGeo.rot(side2), fGeo.rot(t));
+
+    var fishes = fGeo.cycle(pseudocorner);
+
+    global.fishes = fishes;
 })(window);
 
 // canvas

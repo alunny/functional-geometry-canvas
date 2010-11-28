@@ -6,7 +6,7 @@
         return Array.prototype.slice.call(args);
     }
 
-    var vectorMath = {
+    var v = {
         multiply: function (v, factor) {
             return [(v[0] * factor), (v[1] * factor)];
         },
@@ -40,7 +40,7 @@
             if (v1 == undefined) 
                 return [0, 0];
             else if (v2 == undefined)
-                return vectorMath.multiply(v1, -1);
+                return v.multiply(v1, -1);
             else {
                 args = argsToArray(arguments);
                 l = args.length;
@@ -59,7 +59,6 @@
 
     function grid(width, height, lineSegments) {
         return function (offsetVector, boxWidth, boxHeight) {
-            var v = vectorMath;
             var l = lineSegments.length;
             var newList = [];
             var i, line;
@@ -108,8 +107,8 @@
         }
     }
 
-    global.vMath = vectorMath;
-    global.functionalGeometry = {
+    global.vMath = v;
+    global.fGeo = {
         grid: grid,
         beside: beside,
         polygon: polygon
@@ -146,7 +145,7 @@
     });
 })(window);
 
-var manLines = functionalGeometry.polygon([
+var manLines = fGeo.polygon([
     [6, 10], [0, 10], [0, 12], [6, 12], [6, 14],
     [4, 16], [4, 18], [6, 20], [8, 20], [10, 18],
     [10, 16], [8, 14], [8, 12], [10, 12], [10, 14],
@@ -154,7 +153,7 @@ var manLines = functionalGeometry.polygon([
     [8, 0], [7, 4], [6, 0], [4, 0], [6, 8]
 ]);
 
-var man = functionalGeometry.grid(20, 14, manLines);
+var man = fGeo.grid(14, 20, manLines);
 
 function drawALine () {
     var cnvas = document.getElementById("geometric_canvas");

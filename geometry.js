@@ -118,10 +118,10 @@
             }
         },
         quartet: function (p, q, r, s) {
-            return this.above(this.beside(p, q), this.beside(r, s));
+            return this.above(this.beside(r, s), this.beside(p, q));
         },
         cycle: function (p) {
-            return this.quartet(p, this.rot(this.rot(this.rot(p))), 
+            return this.quartet(p, this.rot(this.rot(this.rot(p))),
                     this.rot(p), this.rot(this.rot(p)));
         }
     }
@@ -203,7 +203,7 @@
 
     var corner1 = fGeo.quartet(blank, blank, blank, u);
     var corner2 = fGeo.quartet(corner1, side1, fGeo.rot(side1), u);
-    var pseudocorner = fGeo.quartet(corner1, side2, fGeo.rot(side2), fGeo.rot(t));
+    var pseudocorner = fGeo.quartet(corner2, side2, fGeo.rot(side2), fGeo.rot(t));
 
     var fishes = fGeo.cycle(pseudocorner);
 
